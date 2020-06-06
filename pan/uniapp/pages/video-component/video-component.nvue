@@ -1,0 +1,22 @@
+<template>
+	<view>
+		<video src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" controls></video>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				
+			}
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style>
+
+</style>

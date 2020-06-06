@@ -1,0 +1,41 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationStyle": "custom", // 自定义导航栏
+				"app-plus": {
+					"softinputMode": "adjustResize" // 设置无效 https://uniapp.dcloud.io/component/input
+				}
+			}
+		}, {
+			"path": "pages/index-vue/index-vue",
+			"style": {
+				"navigationBarTitleText":"扩展名为.vue  index-vue 中的webview 展现的内容"
+			}
+		}, {
+			"path": "pages/web-video-nvue/web-video-nvue",
+			"style": {
+				"navigationStyle": "custom", // 自定义导航栏
+				"app-plus": {
+					// "softinputMode": "adjustResize" //  https://uniapp.dcloud.io/component/input
+				}
+			}
+		}, {
+			"path": "pages/chunlei-video-nvue/chunlei-video-nvue",
+			"style": {
+				"navigationStyle": "custom" // 自定义导航栏
+			}
+		}
+	    ,{
+            "path" : "pages/video-component/video-component",
+            "style" : {}
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}

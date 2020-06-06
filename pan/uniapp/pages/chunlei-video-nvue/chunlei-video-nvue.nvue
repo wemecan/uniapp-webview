@@ -1,0 +1,86 @@
+<template>
+	<view class="content">
+		<!-- #ifdef APP-PLUS -->
+		<view class="statusBar" :style="{height:statusBarHeight+'px',width:windowWidth+'px',backgroundColor:'#ff706f'}" />
+		<!-- #endif -->
+		<chunlei-video autoplay orientation :style="{height:(windowHeight-statusBarHeight+4)+'px',width:windowWidth+'px'}" ref="video"
+		 color="#ff706f" :title="video.title" :srcList="video.src" :isWideScreen="video.isWideScreen" :deviceWidth="windowWidth"
+		 :gDuration="video.duartion" :deviceHeight="(windowHeight-30)" @fullscreenchange="fullscreenchange" :initialTime="initialTime" @back="back"/>
+	</view>
+</template>
+
+<script>
+	import chunleiVideo from '@/components/chunlei-video/chunlei-video.nvue';
+	export default {
+		components: {
+			chunleiVideo
+		},
+		data() {
+			return {
+				windowHeight: 0,
+				windowWidth: 0,
+				statusBarHeight: 0,
+				fullScreen: false,
+				initialTime: 0, // 开始播放时间
+				video: {
+					title: "测试视频",
+					src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
+					duartion: 60,
+					isWideScreen: false,
+				},
+			}
+		},
+		created() {
+			//#ifdef APP-PLUS
+			plus.screen.lockOrientation("portrait-primary") // 锁定屏幕竖屏状态
+			//#endif
+		},
+		onShow() {
+			if (typeof this.$refs.video != 'undefined') this.$refs.video.pageShow() // 获取 video 组件
+			try {
+				let videoCurrent = uni.getStorageSync("videoCurrent");
+				if (videoCurrent&&videoCurrent.title==this.video.title) {
+					this.initialTime = videoCurrent.current;
+				}
+			} catch (err) {
+				console.log('获取记录失败!')
+			}
+			
+		},
+		onUnload() {
+			if (typeof this.$refs.video != 'undefined') {
+				this.$refs.video.pageHide();
+			}
+		},
+		onLoad(options) {
+			let data = options.data;
+			if (data) {
+				this.video = JSON.parse(data);
+			}
+			try {
+				let res = uni.getSystemInfoSync();
+				this.windowHeight = res.windowHeight - 4; // 显示区高度
+				this.statusBarHeight = res.statusBarHeight;
+				this.windowWidth = res.windowWidth; // 显示区宽度
+			} catch (e) {
+				console.log('获取系统信息失败!', e)
+			}
+		},
+		methods: {
+			fullscreenchange(e) {// 全屏
+				this.fullScreen = e
+			},
+			clickDownload(e) { // 下载
+				console.log(e)
+			},
+			back(){// 返回
+				uni.navigateBack({
+					delta:1
+				})
+			}
+		}
+	}
+</script>
+
+<style>
+</style>

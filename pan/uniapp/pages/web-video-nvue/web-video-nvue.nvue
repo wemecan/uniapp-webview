@@ -1,0 +1,72 @@
+<template>
+	<view class="body">
+		<!-- #ifdef APP-PLUS -->
+		<div class="statusBar" :style="{height:statusBarHeight+'wx',width:windowWidth+'wx',backgroundColor:'#ff706f'}"></div>
+		<!-- #endif -->
+		<web-view :src="weburl" :style="{height:(windowHeight-statusBarHeight)+'wx',width:windowWidth+'wx'}" />
+		<div class="back" @tap="back">
+			<text class="txt">返回</text>
+		</div>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				statusBarHeight: "",
+				windowHeight: "",
+				windowWidth: "",
+				weburl: "http://192.168.1.208:8080/video.html"
+			}
+		},
+		onLoad() {
+			try {
+				let systemInfo = uni.getSystemInfoSync();
+				this.windowHeight = systemInfo.windowHeight;
+				this.windowWidth = systemInfo.windowWidth;
+				this.statusBarHeight = systemInfo.statusBarHeight;
+				console.log("系统窗口的高度", systemInfo.statusBarHeight)
+			} catch (e) {
+				console.log('获取系统信息失败!', e)
+			}
+			this.windowHeight = this.windowHeight;
+			// 设置导航栏字体颜色
+			plus.navigator.setStatusBarStyle('white');
+		},
+		methods: {
+			handlePostMessage(e) {
+				let resMsgObj = e.detail.data[0];
+				console.log(resMsgObj);
+			},
+			back(){
+				uni.navigateBack({
+					delta:1
+				})
+			}
+		}
+	}
+</script>
+
+<style>
+	.body {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
+
+	.back {
+		position: fixed;
+		bottom: 50px;
+		right: 10px;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		justify-content: center;
+		align-items: center;
+		background-color: #ff706f;
+	}
+	.txt{color:#FFFFFF;}
+</style>
